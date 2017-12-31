@@ -158,6 +158,21 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="153"/>
+        <source>Book Code</source>
+        <translation>编号</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="155"/>
+        <source>Book Name</source>
+        <translation>书名</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="157"/>
+        <source>Number</source>
+        <translation>册数</translation>
+    </message>
+    <message>
         <location filename="mainwindow.cpp" line="188"/>
         <location filename="mainwindow.cpp" line="191"/>
         <location filename="mainwindow.cpp" line="214"/>

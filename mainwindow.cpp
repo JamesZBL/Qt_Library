@@ -150,11 +150,11 @@ void MainWindow::initTableView(){
   // 按编号排序
   model->setSort(0, Qt::AscendingOrder);
   // 编号
-  model->setHeaderData(0,Qt::Horizontal,"Code");
+  model->setHeaderData(0,Qt::Horizontal,tr("Book Code"));
   // 书名
-  model->setHeaderData(1,Qt::Horizontal,"Name");
+  model->setHeaderData(1,Qt::Horizontal,tr("Book Name"));
   // 库存
-  model->setHeaderData(2,Qt::Horizontal,"Number");
+  model->setHeaderData(2,Qt::Horizontal,tr("Number"));
   model->select();
   // 表格视图
   QTableView *view = ui->tableView;
