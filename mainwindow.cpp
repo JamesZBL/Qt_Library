@@ -211,8 +211,8 @@ void MainWindow::on_action_2_triggered()
   QVariant idData = model->data(idIndex);
   QVariant nameData = model->data(nameIndex);
   if(QMessageBox::question(this,
-                           "Info",
-                           "Delete "+nameData.toString()+" ?",
+                           tr("Info"),
+                           tr("Are you sure to delete ")+nameData.toString()+" ?",
                            QMessageBox::Yes | QMessageBox::No)==QMessageBox::Yes){
       deleteBook(idData.toString());
     }

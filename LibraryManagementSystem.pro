@@ -12,6 +12,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = LibraryManagementSystem
 TEMPLATE = app
 
+TRANSLATIONS += zh.ts \
+               en.ts
+
+lupdate_only{
+    SOURCES+ = ./
+}
+
 
 SOURCES += main.cpp\
         mainwindow.cpp \
