@@ -1,4 +1,4 @@
-#include "lendbookdialog.h"
+﻿#include "lendbookdialog.h"
 #include "ui_lendbookdialog.h"
 
 LendBookDialog::LendBookDialog(QWidget *parent) :
@@ -11,4 +11,10 @@ LendBookDialog::LendBookDialog(QWidget *parent) :
 LendBookDialog::~LendBookDialog()
 {
   delete ui;
+}
+
+
+void LendBookDialog::accept(){
+  this->hide();
+  emit lendBook(ui->txtReaderCode->toPlainText(),ui->txtBookCode->toPlainText());
 }

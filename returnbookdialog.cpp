@@ -1,4 +1,4 @@
-#include "returnbookdialog.h"
+﻿#include "returnbookdialog.h"
 #include "ui_returnbookdialog.h"
 
 ReturnBookDialog::ReturnBookDialog(QWidget *parent) :
@@ -11,4 +11,9 @@ ReturnBookDialog::ReturnBookDialog(QWidget *parent) :
 ReturnBookDialog::~ReturnBookDialog()
 {
   delete ui;
+}
+
+void ReturnBookDialog::accept(){
+  this->hide();
+  emit returnBook(ui->txtReaderCode->toPlainText(),ui->txtBookCode->toPlainText());
 }

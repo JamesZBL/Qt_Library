@@ -63,6 +63,30 @@ void MainWindow::on_action_triggered()
 }
 
 /**
+ * 借书
+ *
+ * @brief MainWindow::on_action_3_triggered
+ */
+void MainWindow::on_action_3_triggered()
+{
+  dlgLendBook = new LendBookDialog(this);
+  connect(dlgLendBook,&LendBookDialog::lendBook,this,&MainWindow::lendBook);
+  dlgLendBook->exec();
+}
+
+/**
+ * 还书
+ *
+ * @brief MainWindow::on_action_4_triggered
+ */
+void MainWindow::on_action_4_triggered()
+{
+  dlgReturnBook = new ReturnBookDialog(this);
+  connect(dlgReturnBook,&ReturnBookDialog::returnBook,this,&MainWindow::backBook);
+  dlgReturnBook->exec();
+}
+
+/**
  * 刷新列表
  *
  * @brief MainWindow::on_action_9_triggered
@@ -70,6 +94,26 @@ void MainWindow::on_action_triggered()
 void MainWindow::on_action_9_triggered()
 {
   initTableView();
+}
+
+/**
+ * 当前库存
+ *
+ * @brief MainWindow::on_action_6_triggered
+ */
+void MainWindow::on_action_6_triggered()
+{
+  sumRepertory();
+}
+
+/**
+ * 已借总数
+ *
+ * @brief MainWindow::on_action_7_triggered
+ */
+void MainWindow::on_action_7_triggered()
+{
+  sumLend();
 }
 
 /**
@@ -137,7 +181,7 @@ void MainWindow::initTableView(){
 bool MainWindow::insertBook(const QString name, const QString number){
   // 添加图书语句
   QSqlQuery query;
-  QString sql("INSERT INTO tb_book VALUES(null,'"+name+"',"+number+")");
+  QString sql("INSERT INTO tb_book VALUES(null,'"+name.trimmed()+"',"+number.trimmed()+")");
   qDebug() << sql;
   if(query.exec(sql)){
       // 执行成功
@@ -179,7 +223,7 @@ void MainWindow::on_action_2_triggered()
  *
  * @brief MainWindow::deleteBook
  * @param id 编码
- * @return
+ * @return 执行结果
  */
 bool MainWindow::deleteBook(const QString id){
   // 删除图书语句
@@ -206,12 +250,12 @@ bool MainWindow::deleteBook(const QString id){
  * @brief MainWindow::insertReader
  * @param code 账号
  * @param name 姓名
- * @return
+ * @return 执行结果
  */
 bool MainWindow::insertReader(const QString code, const QString name){
   // 添加读者语句
   QSqlQuery query;
-  QString sql("INSERT INTO tb_reader VALUES(null,'"+name+"',"+code+")");
+  QString sql("INSERT INTO tb_reader VALUES(null,'"+name.trimmed()+"',"+code.trimmed()+")");
   qDebug() << sql;
   if(query.exec(sql)){
       // 执行成功
@@ -224,3 +268,137 @@ bool MainWindow::insertReader(const QString code, const QString name){
 
   return true;
 }
+
+/**
+ * 办理借书手续
+ *
+ * @brief MainWindow::lendBook
+ * @param readerCode 会员账号
+ * @param bookCode  图书编号
+ * @return 执行结果
+ */
+bool MainWindow::lendBook(const QString readerCode, const QString bookCode){
+  QSqlQuery queryBook;
+  QSqlQuery queryBook2;
+  QSqlQuery queryLend;
+  QSqlQuery queryReader;
+
+  QString sqlBook("SELECT number FROM tb_book WHERE id = "+bookCode);
+  QString sqlQueryReader("SELECT * FROM tb_reader WHERE code = "+readerCode);
+
+  queryBook.exec(sqlBook);
+  while(queryBook.next()){
+      int number = queryBook.value(0).toInt();
+      // 判断是否有库存
+      if(number == 0){
+          QMessageBox::information(this,tr("Info"),tr("No enough book"),QMessageBox::Yes);
+          return false;
+        }
+      queryReader.exec(sqlQueryReader);
+      // 判断输入的会员账号是否有效
+      if(queryReader.size()<1){
+          QMessageBox::information(this,tr("Info"),tr("Invalid reader id"),QMessageBox::Yes);
+          return false;
+        }
+    }
+
+  QString sqlLend("INSERT INTO tb_lend VALUES(null,"+bookCode.trimmed()+","+readerCode.trimmed()+",1,0)");
+  QString sqlBook2("UPDATE tb_book SET number = number - 1 where id = "+bookCode.trimmed());
+
+  qDebug() << sqlLend;
+  qDebug() << sqlBook2;
+
+  if(queryLend.exec(sqlLend)&&queryBook2.exec(sqlBook2)){
+      // 执行成功
+      QMessageBox::information(this,tr("Info"),tr("Lend Success"),QMessageBox::Yes);
+    }else{
+      // 执行失败
+      QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
+      qDebug() << queryLend.lastError().text();
+    }
+
+  initTableView();
+  return true;
+}
+
+/**
+ * 办理还书手续
+ *
+ * @brief MainWindow::backBook
+ * @param readerCode
+ * @param bookCode
+ * @return 执行结果
+ */
+bool MainWindow::backBook(const QString readerCode, const QString bookCode){
+  QSqlQuery queryLend;
+  QSqlQuery queryBook;
+  QSqlQuery queryBook2;
+  QSqlQuery queryLend2;
+  QString sqlLend("SELECT * FROM tb_lend WHERE book_id = "+bookCode+" AND reader_id = "+readerCode+" AND is_back = 0");
+  qDebug() << sqlLend;
+
+  if(queryLend.exec(sqlLend)){
+      if(queryLend.size()<1){
+          QMessageBox::information(this,tr("Info"),tr("No book lended"));
+          return false;
+        }
+      else{
+          while(queryLend.next()){
+              QString bookId = queryLend.value(1).toString();
+              QString id = queryLend.value(0).toString();
+              QString sqlBook("UPDATE tb_book SET number = number + 1 WHERE id = "+bookId);
+              qDebug() << sqlBook;
+              if(!queryBook.exec(sqlBook)){
+                  QMessageBox::information(this,tr("Info"),tr("Error occured when return book"));
+                  return false;
+                }else{
+                  QString sqlLend2("UPDATE tb_lend SET is_back = 1 WHERE id = "+id);
+                  QString sqlBook2("UPDATE tb_book SET number = number + 1 WHERE id ="+id);
+                  qDebug() << sqlLend2;
+                  qDebug() << sqlBook2;
+                  queryBook2.exec(sqlBook2);
+                  queryLend2.exec(sqlLend2);
+                }
+            }
+        }
+    }
+
+  QMessageBox::information(this,tr("Info"),tr("Book returned success"));
+  initTableView();
+  return true;
+}
+
+/**
+ * 统计所有图书的库存
+ *
+ * @brief MainWindow::sumRepertory
+ */
+void MainWindow::sumRepertory(){
+  QSqlQuery querySumRepertory;
+  QString sqlSumRepertory("SELECT SUM(number) FROM tb_book");
+  querySumRepertory.exec(sqlSumRepertory);
+  QString numberSum;
+  while(querySumRepertory.next()){
+      numberSum = querySumRepertory.value(0).toString();
+    }
+
+  QMessageBox::information(this,tr("Repertory"),tr("Current repertory: ")+numberSum+tr(""));
+}
+
+/**
+ * 统计目前借出的总数
+ *
+ * @brief MainWindow::sumLend
+ */
+void MainWindow::sumLend(){
+  QSqlQuery querySumLend;
+  QString sqlLend("SELECT COUNT(*) FROM tb_lend WHERE is_back = 0");
+  querySumLend.exec(sqlLend);
+  QString numberSum;
+  while(querySumLend.next()){
+      numberSum = querySumLend.value(0).toString();
+    }
+
+  QMessageBox::information(this,tr("Repertory"),tr("Current lend sum: ")+numberSum+tr(""));
+}
+

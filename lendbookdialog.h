@@ -1,4 +1,4 @@
-#ifndef LENDBOOKDIALOG_H
+﻿#ifndef LENDBOOKDIALOG_H
 #define LENDBOOKDIALOG_H
 
 #include <QDialog>
@@ -14,6 +14,11 @@ class LendBookDialog : public QDialog
 public:
   explicit LendBookDialog(QWidget *parent = 0);
   ~LendBookDialog();
+
+  void accept();
+
+signals:
+  void lendBook(const QString readerCode,const QString bookCode);
 
 private:
   Ui::LendBookDialog *ui;

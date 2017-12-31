@@ -1,4 +1,4 @@
-#ifndef RETURNBOOKDIALOG_H
+﻿#ifndef RETURNBOOKDIALOG_H
 #define RETURNBOOKDIALOG_H
 
 #include <QDialog>
@@ -14,6 +14,11 @@ class ReturnBookDialog : public QDialog
 public:
   explicit ReturnBookDialog(QWidget *parent = 0);
   ~ReturnBookDialog();
+
+  void accept();
+
+signals:
+  void returnBook(const QString readerCode,const QString bookCode);
 
 private:
   Ui::ReturnBookDialog *ui;

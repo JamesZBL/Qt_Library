@@ -17,14 +17,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     aboutdialog.cpp \
     addbookdialog.cpp \
-    addreaderdialog.cpp
+    addreaderdialog.cpp \
+    lendbookdialog.cpp \
+    returnbookdialog.cpp
 
 HEADERS  += mainwindow.h \
     aboutdialog.h \
     addbookdialog.h \
-    addreaderdialog.h
+    addreaderdialog.h \
+    lendbookdialog.h \
+    returnbookdialog.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui \
     addbookdialog.ui \
-    addreaderdialog.ui
+    addreaderdialog.ui \
+    lendbookdialog.ui \
+    returnbookdialog.ui
