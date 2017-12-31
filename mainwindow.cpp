@@ -127,9 +127,9 @@ bool MainWindow::connectDatabase()
   bool rslt = true;
   QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
   db.setPort(3306);
-  db.setHostName("localhost");
-  db.setUserName("root");
-  db.setPassword("root");
+  db.setHostName("47.93.187.44");
+  db.setUserName("library_ks");
+  db.setPassword("library_ks");
   db.setDatabaseName("library_ks");
   if (!db.open()) {
       QMessageBox::information(0,QObject::tr("Error"),db.lastError().text());
