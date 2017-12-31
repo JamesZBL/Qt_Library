@@ -287,6 +287,7 @@ bool MainWindow::lendBook(const QString readerCode, const QString bookCode){
   QString sqlQueryReader("SELECT * FROM tb_reader WHERE code = "+readerCode);
 
   queryBook.exec(sqlBook);
+  int i(0);
   while(queryBook.next()){
       int number = queryBook.value(0).toInt();
       // 判断是否有库存
@@ -300,22 +301,29 @@ bool MainWindow::lendBook(const QString readerCode, const QString bookCode){
           QMessageBox::information(this,tr("Info"),tr("Invalid reader id"),QMessageBox::Yes);
           return false;
         }
+      i++;
     }
 
-  QString sqlLend("INSERT INTO tb_lend VALUES(null,"+bookCode.trimmed()+","+readerCode.trimmed()+",1,0)");
-  QString sqlBook2("UPDATE tb_book SET number = number - 1 where id = "+bookCode.trimmed());
+  if(i!=0){
+      QString sqlLend("INSERT INTO tb_lend VALUES(null,"+bookCode.trimmed()+","+readerCode.trimmed()+",1,0)");
+      QString sqlBook2("UPDATE tb_book SET number = number - 1 where id = "+bookCode.trimmed());
 
-  qDebug() << sqlLend;
-  qDebug() << sqlBook2;
+      qDebug() << sqlLend;
+      qDebug() << sqlBook2;
 
-  if(queryLend.exec(sqlLend)&&queryBook2.exec(sqlBook2)){
-      // 执行成功
-      QMessageBox::information(this,tr("Info"),tr("Lend Success"),QMessageBox::Yes);
+      if(queryLend.exec(sqlLend)&&queryBook2.exec(sqlBook2)){
+          // 执行成功
+          QMessageBox::information(this,tr("Info"),tr("Lend Success"),QMessageBox::Yes);
+        }else{
+          // 执行失败
+          QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
+          qDebug() << queryLend.lastError().text();
+        }
     }else{
-      // 执行失败
-      QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
-      qDebug() << queryLend.lastError().text();
+      QMessageBox::information(this,tr("Info"),tr("No such book"),QMessageBox::Yes);
+      return false;
     }
+
 
   initTableView();
   return true;

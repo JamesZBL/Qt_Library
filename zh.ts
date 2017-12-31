@@ -165,13 +165,14 @@
         <location filename="mainwindow.cpp" line="238"/>
         <location filename="mainwindow.cpp" line="262"/>
         <location filename="mainwindow.cpp" line="265"/>
-        <location filename="mainwindow.cpp" line="294"/>
-        <location filename="mainwindow.cpp" line="300"/>
-        <location filename="mainwindow.cpp" line="313"/>
+        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="301"/>
         <location filename="mainwindow.cpp" line="316"/>
-        <location filename="mainwindow.cpp" line="342"/>
-        <location filename="mainwindow.cpp" line="352"/>
-        <location filename="mainwindow.cpp" line="366"/>
+        <location filename="mainwindow.cpp" line="319"/>
+        <location filename="mainwindow.cpp" line="323"/>
+        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="360"/>
+        <location filename="mainwindow.cpp" line="374"/>
         <source>Info</source>
         <translation>提示</translation>
     </message>
@@ -199,53 +200,58 @@
         <translation>删除成功</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="294"/>
+        <location filename="mainwindow.cpp" line="295"/>
         <source>No enough book</source>
         <translation>这本书已经借完了</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="300"/>
+        <location filename="mainwindow.cpp" line="301"/>
         <source>Invalid reader id</source>
         <translation>会员账号不存在</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="313"/>
+        <location filename="mainwindow.cpp" line="316"/>
         <source>Lend Success</source>
         <translation>借阅成功</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="316"/>
+        <location filename="mainwindow.cpp" line="319"/>
         <source>Error occured</source>
         <translation>好像出了点问题</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="342"/>
+        <location filename="mainwindow.cpp" line="323"/>
+        <source>No such book</source>
+        <translation>图书编号不存在</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="350"/>
         <source>No book lended</source>
         <translation>此会员不欠图书</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="352"/>
+        <location filename="mainwindow.cpp" line="360"/>
         <source>Error occured when return book</source>
         <translation>还书失败</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="366"/>
+        <location filename="mainwindow.cpp" line="374"/>
         <source>Book returned success</source>
         <translation>还书成功</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="385"/>
-        <location filename="mainwindow.cpp" line="402"/>
+        <location filename="mainwindow.cpp" line="393"/>
+        <location filename="mainwindow.cpp" line="410"/>
         <source>Repertory</source>
         <translation>库存统计</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="385"/>
+        <location filename="mainwindow.cpp" line="393"/>
         <source>Current repertory: </source>
         <translation>当前库存：</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="402"/>
+        <location filename="mainwindow.cpp" line="410"/>
         <source>Current lend sum: </source>
         <translation>当前已借图书总数：</translation>
     </message>
@@ -262,7 +268,7 @@
     <name>ReturnBookDialog</name>
     <message>
         <location filename="returnbookdialog.ui" line="14"/>
-        <source>Dialog</source>
+        <source>还书手续办理</source>
         <translation></translation>
     </message>
     <message>
