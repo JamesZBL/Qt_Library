@@ -235,8 +235,16 @@ bool MainWindow::deleteBook(const QString id){
       QMessageBox::information(this,tr("Info"),tr("Delete Success"),QMessageBox::Yes);
     }else{
       // 执行失败
-      QMessageBox::information(this,tr("Info"),tr("Invalid input"),QMessageBox::Yes);
-      qDebug() << query.lastError().text();
+      QString e = query.lastError().text();
+      if(e.contains("denied")){
+          // 没有删除的权限
+          QMessageBox::information(this,tr("Info"),tr("You don't have permission for deletion"),QMessageBox::Yes);
+        }else{
+          // 发生了错误
+          QMessageBox::information(this,tr("Info"),tr("Error occured"),QMessageBox::Yes);
+        }
+
+      qDebug() << e;
     }
 
   // 刷新 tableView
