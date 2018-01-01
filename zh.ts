@@ -217,7 +217,7 @@
     <message>
         <location filename="mainwindow.cpp" line="241"/>
         <source>You don&apos;t have permission for deletion</source>
-        <translation type="unfinished">对不起，你没有删除操作的权限</translation>
+        <translation>对不起，你没有删除操作的权限</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="303"/>
